@@ -1,0 +1,168 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbaac96efc4721b4296aea1411d7b333, type: 3}
+  m_Name: Class Upgrade Data
+  m_EditorClassIdentifier: 
+  classSystems:
+  - systemType: Simple
+    classSections:
+    - sectionName: Jump
+      Upgrades:
+      - upgradeName: Jump
+        upgradeDescription: A basic, easy jump that allows for a little more control
+        upgradeUnlocked: 1
+        starterUpgrade: 1
+        upgradeCost: 0
+        hasLevels: 0
+        upgradeLevel: 0
+        levels: []
+      - upgradeName: RocketJump
+        upgradeDescription: A higher jump that instantly shoots you into the stratosphere,
+          but sacrifices control
+        upgradeUnlocked: 0
+        starterUpgrade: 0
+        upgradeCost: 10
+        hasLevels: 0
+        upgradeLevel: 0
+        levels:
+        - levelCost: 0
+          levelIncrease: 1
+        - levelCost: 0
+          levelIncrease: 0
+        - levelCost: 0
+          levelIncrease: 0
+        - levelCost: 0
+          levelIncrease: 0
+      - upgradeName: ZeroGravJump
+        upgradeDescription: A floaty jump that allows for greater control and traverses
+          large chasms, but doesn't go too high
+        upgradeUnlocked: 0
+        starterUpgrade: 0
+        upgradeCost: 20
+        hasLevels: 0
+        upgradeLevel: 0
+        levels: []
+    - sectionName: Dodge
+      Upgrades:
+      - upgradeName: SideStepDodge
+        upgradeDescription: Dodge protocol that allows you to side step out of harms
+          way. Can be used more often compared to backstep but doesn't allow easy
+          avoidance of large area attacks
+        upgradeUnlocked: 1
+        starterUpgrade: 1
+        upgradeCost: 0
+        hasLevels: 0
+        upgradeLevel: 0
+        levels: []
+      - upgradeName: BackPaceDodge
+        upgradeDescription: Dodge protocol that allows immediate disengagment of
+          the target. Using a large dodge overloads the module, preventing frequent
+          use.
+        upgradeUnlocked: 0
+        starterUpgrade: 0
+        upgradeCost: 0
+        hasLevels: 0
+        upgradeLevel: 0
+        levels: []
+    - sectionName: Buff
+      Upgrades:
+      - upgradeName: MoveSpeedBuff
+        upgradeDescription: Enhancement module that briefly increases movement speed,
+          affecting normal movement, and dodge modules
+        upgradeUnlocked: 1
+        starterUpgrade: 1
+        upgradeCost: 0
+        hasLevels: 0
+        upgradeLevel: 0
+        levels: []
+      - upgradeName: HeightBuff
+        upgradeDescription: Enhancement module that briefly increases jump capabilities,
+          affecting normal aerial manoeuvres and respective modules
+        upgradeUnlocked: 1
+        starterUpgrade: 1
+        upgradeCost: 0
+        hasLevels: 0
+        upgradeLevel: 0
+        levels: []
+  - systemType: Dynamic
+    classSections:
+    - sectionName: Concentrated Spec
+      Upgrades:
+      - upgradeName: Concentrated Spec - Missile Barrage
+        upgradeDescription: Concentrated Shot, a high power attack ability that pierces
+          through armoured enemies' defenses. This spec chip allows successful hits
+          to accumulate missile stacks which can be fired at will using C
+        upgradeUnlocked: 1
+        starterUpgrade: 1
+        upgradeCost: 0
+        hasLevels: 0
+        upgradeLevel: 0
+        levels: []
+      - upgradeName: Concentrated Spec - Enhanced Might
+        upgradeDescription: Concentrated Shot, a high power attack ability that pierces
+          through armoured enemies' defenses. This spec chip allows succesful hit
+          to build up a temporary enhancement for weapon damage, which can be activated
+          using C
+        upgradeUnlocked: 0
+        starterUpgrade: 0
+        upgradeCost: 20
+        hasLevels: 0
+        upgradeLevel: 0
+        levels: []
+    - sectionName: Strengthen
+      Upgrades:
+      - upgradeName: Strengthen - Weapon Damage
+        upgradeDescription: Enhancement Module that permanently increases weapon
+          damage while equipped. Further upgrades increase overall bonus
+        upgradeUnlocked: 1
+        starterUpgrade: 1
+        upgradeCost: 0
+        hasLevels: 0
+        upgradeLevel: 0
+        levels: []
+      - upgradeName: Strengthen - Projectile Damage
+        upgradeDescription: Enhancement Module that permanently increases projectile
+          damage while equipped. Further upgrade increase overall bonus
+        upgradeUnlocked: 0
+        starterUpgrade: 0
+        upgradeCost: 20
+        hasLevels: 0
+        upgradeLevel: 0
+        levels: []
+    - sectionName: Ordnance
+      Upgrades:
+      - upgradeName: Ordnance - Almighty Wave
+        upgradeDescription: A projectile that has an initial detonation, and continues
+          to damage enemies inside of it for a few second
+        upgradeUnlocked: 0
+        starterUpgrade: 0
+        upgradeCost: 20
+        hasLevels: 0
+        upgradeLevel: 0
+        levels: []
+      - upgradeName: Ordnance - Splitter Frag
+        upgradeDescription: A projectile that splits into smaller explosives on initial
+          impact
+        upgradeUnlocked: 0
+        starterUpgrade: 0
+        upgradeCost: 20
+        hasLevels: 0
+        upgradeLevel: 0
+        levels: []
+      - upgradeName: Ordnance - Spinning Orb
+        upgradeDescription: A simple projectile that can be thrown at the enemy
+        upgradeUnlocked: 1
+        starterUpgrade: 1
+        upgradeCost: 0
+        hasLevels: 0
+        upgradeLevel: 0
+        levels: []
