@@ -9,11 +9,13 @@ public class TutorialTrigger : MonoBehaviour
 
     public int tutorialIndex;
     public bool hasCondition;
+    public float triggerTime;
+    public bool timerActive;
     void Start()
     {
         if (triggerOnStart)
         {
-            Debug.Log("TUTORIAL");
+            
             hasTriggered = true;
             TutorialSystem.instance.triggerTutorial(tutorialIndex, hasCondition);
         }
@@ -22,17 +24,29 @@ public class TutorialTrigger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (timerActive)
+        {
+            if (triggerTime > 0)
+            {
+                triggerTime -= GamePause.deltaTime;
+            }
+            else
+            {
+                timerActive = false;
+                TutorialSystem.instance.triggerTutorial(tutorialIndex, hasCondition);
+                hasTriggered = true;
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<PlayerBase>())
         {
-            if (!hasTriggered)
+            if (!hasTriggered && !timerActive)
             {
-                hasTriggered = true;
-                TutorialSystem.instance.triggerTutorial(tutorialIndex, hasCondition);
+                timerActive = true;
+                
             }
         }
     }

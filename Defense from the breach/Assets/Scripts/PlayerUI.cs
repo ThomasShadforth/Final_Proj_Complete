@@ -26,6 +26,8 @@ public class PlayerUI : MonoBehaviour
     public TextMeshProUGUI magAmmoText;
     public TextMeshProUGUI remainingAmmoText;
 
+    public TextMeshProUGUI dynamicBuffText;
+    public TextMeshProUGUI simpleBuffText;
 
     // Start is called before the first frame update
     void Start()

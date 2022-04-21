@@ -13,13 +13,17 @@ public class TutorialSystem : MonoBehaviour
     [SerializeField] GameObject[] secondEnemySet;
     [SerializeField] GameObject BossEnemy;
 
+    
+
     int tutorialIndex;
     public bool doesTutHaveConditions;
     public bool isTutorialActive;
+    public bool uiDisappeared = false;
 
     [Header("Tutorial Conditions")]
     bool bossDefeated;
 
+    float noInputTimer = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +35,7 @@ public class TutorialSystem : MonoBehaviour
         else
         {
             instance = this;
+            
         }
     }
 
@@ -46,18 +51,40 @@ public class TutorialSystem : MonoBehaviour
         {
             if (!doesTutHaveConditions)
             {
-                if (Input.anyKey)
+                if (noInputTimer <= 0)
                 {
-                    Invoke("CloseTutorialPanel", 3f);
+                    if (Input.anyKey)
+                    {
+                        Invoke("CloseTutorialPanel", 3f);
+                    }
+                }
+                else
+                {
+                    noInputTimer -= GamePause.deltaTime;
                 }
             }
             else
             {
+                if (noInputTimer <= 0)
+                {
+                    if (Input.anyKey)
+                    {
+                        if (!uiDisappeared)
+                        {
+                            Invoke("CloseConditionPanel", 3f);
+                        }
+                    }
+                }
+                else
+                {
+                    noInputTimer -= GamePause.deltaTime;
+                }
+
                 bool conditionFulfilled = checkCondition();
 
                 if (conditionFulfilled)
                 {
-                    TutorialPopUp[tutorialIndex].SetActive(false);
+                    
                     isTutorialActive = false;
 
                     if(tutorialIndex == 1 || tutorialIndex == 3 || tutorialIndex == 5)
@@ -77,13 +104,27 @@ public class TutorialSystem : MonoBehaviour
         tutorialUIPanel.SetActive(false);
     }
 
+    void CloseConditionPanel()
+    {
+        TutorialPopUp[tutorialIndex].SetActive(false);
+        tutorialUIPanel.SetActive(false);
+        uiDisappeared = true;
+    }
+
     public void triggerTutorial(int Index, bool hasCondition)
     {
         tutorialIndex = Index;
         isTutorialActive = true;
+        
+        
         doesTutHaveConditions = hasCondition;
-        tutorialUIPanel.SetActive(true);
-        TutorialPopUp[tutorialIndex].SetActive(true);
+        if (!GameManager.instance.tutorialTriggers[tutorialIndex])
+        {
+            uiDisappeared = false;
+            tutorialUIPanel.SetActive(true);
+            TutorialPopUp[tutorialIndex].SetActive(true);
+            GameManager.instance.tutorialTriggers[tutorialIndex] = true;
+        }
     }
 
 

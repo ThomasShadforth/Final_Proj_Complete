@@ -10,6 +10,8 @@ public class SplitterFragPiece : MonoBehaviour
     public float fragPieceDamage = 10f;
     //The move speed and the height of the frag piece
     public float fragMoveSpeed, fragHeight;
+    public float radius;
+    public LayerMask enemyLayer;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +22,7 @@ public class SplitterFragPiece : MonoBehaviour
         transform.parent = null;
         //Set the velocity
         rb.velocity = transform.forward * fragMoveSpeed + transform.up * fragHeight;
+
     }
 
     // Update is called once per frame
@@ -30,6 +33,7 @@ public class SplitterFragPiece : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        /*
         //Damage the enemy on hit
         if(other.gameObject.layer == LayerMask.NameToLayer("Ground") || other.gameObject.GetComponent<AdvancedEnemyAI>())
         {
@@ -41,6 +45,18 @@ public class SplitterFragPiece : MonoBehaviour
             
             Destroy(gameObject);
             
+        }*/
+
+        Collider[] detectedEnemies = Physics.OverlapSphere(transform.position, radius, enemyLayer);
+
+        if(detectedEnemies.Length != 0)
+        {
+            foreach(Collider enemy in detectedEnemies)
+            {
+                enemy.gameObject.GetComponent<AdvancedEnemyAI>().TakeDamage(fragPieceDamage, false);
+            }
         }
+
+        Destroy(gameObject);
     }
 }

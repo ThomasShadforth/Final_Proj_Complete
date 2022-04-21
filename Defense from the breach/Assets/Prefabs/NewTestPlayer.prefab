@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1263544615248626513}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.43999863, y: -0.29, z: 0.44199958}
+  m_LocalPosition: {x: -0.248, y: -0.29, z: 0.44199958}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4663297582189762701}
@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0babbf98df8fb346b3eebaa3008d157, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  speed: 3
   defaultSpeed: 0
   playerFeetPos: {fileID: 4663297582576723685}
   detectRadius: 0.42
@@ -370,10 +370,10 @@ MonoBehaviour:
   buffTimer: 0
   speedBuffTimer: 5
   jumpBuffTimer: 10
-  rocketJumpHeight: 2
+  rocketJumpHeight: 2.73
   ZeroGravityDuration: 4
-  sideStepDistance: 7
-  backPaceDistance: 6
+  sideStepDistance: 8
+  backPaceDistance: 10
   speedBuffMod: 1.2
   jumpBuffMod: 1.4
   isDodging: 0
@@ -383,6 +383,7 @@ MonoBehaviour:
   superJumpLimit: 1
   superJumpLimitVal: 0
   timers: []
+  dodgeNumber: 0
 --- !u!114 &8242931036426038190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,7 +417,7 @@ MonoBehaviour:
   concentratedBullet: {fileID: 2243067292497066973, guid: bc3fe06b5368c5c4294c6f38ab8d2ddd, type: 3}
   weaponBuffVal: 1
   weaponBuffModifier: 1
-  projectileModifier: 0
+  projectileModifier: 1
   selectedProjectileObject:
   - {fileID: 5202087986225301752, guid: fd13541fce6e7be42bc132106446480c, type: 3}
   - {fileID: 268123553640410480, guid: 63c5d41b22280334d9295bdd2b592121, type: 3}
@@ -431,6 +432,7 @@ MonoBehaviour:
   concentratedShotActive: 0
   weapon: {fileID: 4663297581841677725}
   BuffUIString: 
+  MissileStackBuffString: 
   timers: []
   BuffUI: {fileID: 0}
 --- !u!1 &4663297582079266296
@@ -460,7 +462,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4663297582079266296}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.29, z: 0.24800014}
+  m_LocalPosition: {x: 9.720001, y: -10.31, z: -0.6120014}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4663297581868478119}

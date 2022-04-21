@@ -339,6 +339,12 @@ MonoBehaviour:
   - {fileID: 2729201301499624613}
   - {fileID: 4202364444283615655}
   - {fileID: 4839753884604274857}
+  baseDamage: 10
+  fragPieceDamage: 0
+  damageRadius: 4.62
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!54 &5960910793987785343
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -40,6 +40,16 @@ public class DynamicClassMenu : MonoBehaviour
         setDefaultNodes();
     }
 
+    private void OnEnable()
+    {
+        classNodeMenu = GetComponent<DynamicClassNodes>();
+
+        originalButtonSize = referenceButtonSize.image.rectTransform.sizeDelta;
+        transformSize = originalButtonSize * 2;
+
+        setDefaultNodes();
+    }
+
     // Update is called once per frame
     void Update()
     {

@@ -273,17 +273,20 @@ public class AdvancedEnemyAI : MonoBehaviour
     //This may possibly be divided into different range attacks
     public void rangeAttack()
     {
+        float velocityScale = 1f;
         GameObject newBullet = Instantiate(bullet, enemyFirepoint.position, enemyFirepoint.rotation);
-
+        newBullet.GetComponent<BulletObject>().SetOwner(this.gameObject, false);
         if (bossScale)
         {
             Vector3 scalar = transform.localScale;
-            scalar *= 1.5f;
+            scalar *= 1.1f;
             newBullet.transform.localScale = scalar;
+            newBullet.GetComponent<SphereCollider>().radius = .1f;
+            velocityScale = 2f;
         }
 
-        newBullet.GetComponent<Rigidbody>().velocity = transform.forward * 10;
-        newBullet.GetComponent<BulletObject>().SetOwner(this.gameObject);
+        newBullet.GetComponent<Rigidbody>().velocity = transform.forward * 10 * velocityScale;
+        
         
     }
 
@@ -347,7 +350,7 @@ public class AdvancedEnemyAI : MonoBehaviour
             }
             else
             {
-                DamageTaken = DamageTaken / 2;
+                DamageTaken = DamageTaken / 6;
                 enemyHealth -= DamageTaken;
             }
         }
@@ -428,11 +431,11 @@ public class AdvancedEnemyAI : MonoBehaviour
 
         while(sphereMaterialColor.a < .8f)
         {
-            sphereMaterialColor.a = Mathf.MoveTowards(sphereMaterialColor.a, .8f, 1 * GamePause.deltaTime);
+            sphereMaterialColor.a = Mathf.MoveTowards(sphereMaterialColor.a, .8f, .4f * GamePause.deltaTime);
             AOE_Sphere.GetComponent<MeshRenderer>().material.color = sphereMaterialColor;
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.3f);
 
         Collider[] player = Physics.OverlapSphere(transform.position, AoEAttackRadius, playerLayer);
 
@@ -440,9 +443,10 @@ public class AdvancedEnemyAI : MonoBehaviour
         {
             if (player[0].GetComponent<PlayerBase>())
             {
-                Debug.Log("KNOCKBACK!");
+                
                 Vector3 knockDirection = player[0].transform.position - transform.position;
                 knockDirection = knockDirection.normalized;
+                
                 PlayerBase.instance.hurtPlayer(20);
                 PlayerBase.instance.KnockBack(knockDirection);
             }

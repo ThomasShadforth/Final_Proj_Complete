@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class DynamicClassAbilities : MonoBehaviour
@@ -85,6 +86,7 @@ public class DynamicClassAbilities : MonoBehaviour
     bool projectileBuffTimerReach = true;
     bool wepBuffTimerReach = true;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -96,6 +98,7 @@ public class DynamicClassAbilities : MonoBehaviour
         SetProjectileObject();
     }
 
+
     // Update is called once per frame
     void Update()
     {
@@ -105,7 +108,11 @@ public class DynamicClassAbilities : MonoBehaviour
             return;
         }
 
-        if(TutorialSystem.instance != null && (TutorialSystem.instance.isTutorialActive && !TutorialSystem.instance.doesTutHaveConditions))
+        if(TutorialSystem.instance != null && (TutorialSystem.instance.isTutorialActive && !TutorialSystem.instance.doesTutHaveConditions && !TutorialSystem.instance.uiDisappeared))
+        {
+            return;
+        }
+        else if (TutorialSystem.instance != null && (TutorialSystem.instance.isTutorialActive && TutorialSystem.instance.doesTutHaveConditions && !TutorialSystem.instance.uiDisappeared))
         {
             return;
         }
@@ -180,6 +187,7 @@ public class DynamicClassAbilities : MonoBehaviour
                 concentratedShotTimer = 12;
                 //Add the buff to the UI and add the timer to the list
                 AddBuffToUI("Concentrated Shot");
+                concentratedShotMultiplier = 1f;
                 timers.Add(concentratedShotTimer);
 
                 //Reset the missile stacks or buff modifier if they haven't been used
@@ -282,8 +290,8 @@ public class DynamicClassAbilities : MonoBehaviour
     public void ConcentratedShot()
     {
         GameObject shotBullet = Instantiate(concentratedBullet, weapon.muzzleEnd.position, weapon.muzzleEnd.rotation);
-        shotBullet.GetComponent<ConcentratedShotBullet>().setDamage(50, concentratedShotMultiplier);
-        shotBullet.GetComponent<Rigidbody>().velocity = weapon.transform.forward * 10;
+        shotBullet.GetComponent<ConcentratedShotBullet>().setDamage(20, concentratedShotMultiplier);
+        shotBullet.GetComponent<Rigidbody>().velocity = weapon.transform.forward * 15;
     }
 
     //Calls the MissileBarrage coroutine
@@ -485,9 +493,10 @@ public class DynamicClassAbilities : MonoBehaviour
         }
 
         //If the normal buff string is not blank, execute this block of code
-        if (BuffUIString != "")
+        if (BuffUIString != "" || MissileStackBuffString != "")
         {
             //Split the string into a string array using string.split
+
             string[] buffList = BuffUIString.Split(',');
 
             //Convert the array into a list
@@ -640,6 +649,8 @@ public class DynamicClassAbilities : MonoBehaviour
         //Otherwise, return 0
         return 0f;
     }
+
+    
 
     #endregion
 }

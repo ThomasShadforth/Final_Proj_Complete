@@ -247,7 +247,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7438934854253546199}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.002085901, y: 0.008417093, z: -0.0009877313, w: 0.9999619}
   m_LocalPosition: {x: 5.4021826, y: -3.596, z: 2.3978808}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -255,7 +255,7 @@ Transform:
   - {fileID: 6038252851358409332}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0.24, y: 0.964, z: -0.111}
 --- !u!33 &7438934854253546186
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -365,3 +365,5 @@ MonoBehaviour:
   bullet: {fileID: 2243067292497066973, guid: 4d57db2d0214c48438b471b6cfa9278a, type: 3}
   enemyFirepoint: {fileID: 6038252851358409332}
   upgradePointVal: 10
+  isStrafing: 0
+  canStrafe: 0

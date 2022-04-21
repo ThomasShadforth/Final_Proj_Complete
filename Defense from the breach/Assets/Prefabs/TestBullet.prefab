@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyTime: 1
-  damage: 20
+  damage: 10
 --- !u!135 &1961280375175418962
 SphereCollider:
   m_ObjectHideFlags: 0

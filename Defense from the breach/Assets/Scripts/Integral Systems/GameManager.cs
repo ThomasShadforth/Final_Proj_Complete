@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 
     public int upgradePoints;
     public Text upgradePointText;
+
+    public bool[] tutorialTriggers;
     void Start()
     {
         if(instance != null)
@@ -25,6 +27,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        upgradePointText.text = "Upgrade Points: " + upgradePoints;
+        //upgradePointText.text = "Upgrade Points: " + upgradePoints;
     }
 }

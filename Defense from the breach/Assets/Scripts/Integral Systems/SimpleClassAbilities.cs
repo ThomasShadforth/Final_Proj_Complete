@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class SimpleClassAbilities : MonoBehaviour
@@ -43,9 +44,12 @@ public class SimpleClassAbilities : MonoBehaviour
     public float sideStepDistance;
     public float backPaceDistance;
     public float speedBuffMod = 1.2f;
+    float speedBuffVal = 1f;
     public float jumpBuffMod = 1.4f;
+    float jumpBuffVal = 1f;
     public bool isDodging;
     public bool isSuperJump;
+    float defaultJumpForce;
 
     //Read Only Arrays for the Abilities
     public readonly string[] dodgeAbilities = { "SideStepDodge", "BackPaceDodge" };
@@ -67,12 +71,17 @@ public class SimpleClassAbilities : MonoBehaviour
     public float superJumpLimitVal;
     bool hasResetLimit = true;
     public List<float> timers = new List<float>();
+    //Used to count how many dodges the player has before cooldown
+    public int dodgeNumber;
+    bool dodgeCooldownActive;
 
     private void Start()
     {
         player = PlayerBase.instance;
         rb = GetComponent<Rigidbody>();
         superJumpLimitVal = superJumpLimit;
+        dodgeNumber = 2;
+        
     }
 
     // Update is called once per frame
@@ -83,7 +92,11 @@ public class SimpleClassAbilities : MonoBehaviour
             return;
         }
 
-        if(TutorialSystem.instance != null && (TutorialSystem.instance.isTutorialActive && !TutorialSystem.instance.doesTutHaveConditions))
+        if(TutorialSystem.instance != null && (TutorialSystem.instance.isTutorialActive && !TutorialSystem.instance.doesTutHaveConditions && !TutorialSystem.instance.uiDisappeared))
+        {
+            return;
+        }
+        else if (TutorialSystem.instance != null && (TutorialSystem.instance.isTutorialActive && TutorialSystem.instance.doesTutHaveConditions && !TutorialSystem.instance.uiDisappeared))
         {
             return;
         }
@@ -116,9 +129,12 @@ public class SimpleClassAbilities : MonoBehaviour
     {
         if (Input.GetButtonDown("Dodge"))
         {
-            if(dodgeCooldown <= 0) {
-                
-                DodgeAbility();
+            if(dodgeCooldown <= 0 || dodgeNumber > 0) {
+                if (!isDodging)
+                {
+                    DodgeAbility();
+                    dodgeNumber--;
+                }
             }
         }
         else if (Input.GetButtonDown("Buff"))
@@ -148,9 +164,11 @@ public class SimpleClassAbilities : MonoBehaviour
             {
                 case "MoveSpeedBuff":
                     player.speedModifier = 1.0f;
+                    speedBuffVal = 1.0f;
                     break;
                 case "HeightBuff":
                     player.jumpModifier = 1.0f;
+                    jumpBuffVal = 1.0f;
                     break;
             }
             if (!buffTimerReached)
@@ -171,6 +189,21 @@ public class SimpleClassAbilities : MonoBehaviour
         {
             dodgeCooldown -= GamePause.deltaTime;
         }
+        else
+        {
+            if(dodgeNumber == 0 && dodgeCooldownActive)
+            {
+                if (selectedDodge.Contains("Side"))
+                {
+                    dodgeNumber = 2;
+                }
+                else
+                {
+                    dodgeNumber = 1;
+                }
+                dodgeCooldownActive = false;
+            }
+        }
     }
 
     #endregion
@@ -178,22 +211,34 @@ public class SimpleClassAbilities : MonoBehaviour
     #region Dodge Abilities
     void DodgeAbility()
     {
+        
         switch (selectedDodge)
         {
             case "SideStepDodge":
+                
                 StartCoroutine(SideStepDodgeAbility(move.x));
                 break;
             case "BackPaceDodge":
+                
                 StartCoroutine(BackPaceDodgeAbility());
                 break;
             default:
                 break;
         }
+        
     }
 
     IEnumerator SideStepDodgeAbility(float xMove)
     {
-        if(xMove == 0)
+        float dodgeTime = .3f;
+        if (!dodgeCooldownActive)
+        {
+            dodgeCooldown = sideStepCooldown;
+            maxDodgeCooldown = sideStepCooldown;
+            dodgeCooldownActive = true;
+        }
+
+        if (xMove == 0)
         {
             xMove = 1;
         }
@@ -201,28 +246,44 @@ public class SimpleClassAbilities : MonoBehaviour
         isDodging = true;
         rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0f);
 
-        rb.AddForce((transform.right * xMove * sideStepDistance) * speedBuffMod, ForceMode.Impulse);
-        yield return new WaitForSeconds(.3f);
+        while(dodgeTime > 0)
+        {
+            rb.AddForce((transform.right * xMove * sideStepDistance) * speedBuffVal, ForceMode.Impulse);
+            dodgeTime -= GamePause.deltaTime;
+            yield return null;
+        }
 
-        rb.velocity = Vector3.zero;
+        
+        
+
+        //
         isDodging = false;
-        dodgeCooldown = sideStepCooldown;
-        maxDodgeCooldown = sideStepCooldown;
+        
     }
 
     IEnumerator BackPaceDodgeAbility()
     {
+        float dodgeTime = .5f;
+        if (!dodgeCooldownActive)
+        {
+            dodgeCooldown = backPaceCooldown;
+            maxDodgeCooldown = backPaceCooldown;
+            dodgeCooldownActive = true;
+        }
         isDodging = true;
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-        rb.AddForce((-transform.forward * backPaceDistance) * speedBuffMod, ForceMode.Impulse);
-
-        yield return new WaitForSeconds(.6f);
-
+        //rb.AddForce((-transform.forward * backPaceDistance) * speedBuffVal, ForceMode.Impulse);
+        while (dodgeTime > 0)
+        {
+            rb.AddForce(new Vector3(0f, .1f, -transform.forward.z * backPaceDistance) * speedBuffVal, ForceMode.Impulse);
+            dodgeTime -= GamePause.deltaTime;
+            yield return null;
+        }
+        Debug.Log("LOOP ENDED");
         rb.velocity = Vector3.zero;
         isDodging = false;
-        dodgeCooldown = backPaceCooldown;
-        maxDodgeCooldown = backPaceCooldown;
+        
     }
     #endregion
 
@@ -236,6 +297,7 @@ public class SimpleClassAbilities : MonoBehaviour
 
             case "MoveSpeedBuff":
                 player.speedModifier = speedBuffMod;
+                speedBuffVal = speedBuffMod;
                 buffTimer = speedBuffTimer;
                 buffCooldown = speedBuffCooldown;
                 maxBuffCooldown = speedBuffCooldown;
@@ -243,6 +305,7 @@ public class SimpleClassAbilities : MonoBehaviour
                 break;
             case "HeightBuff":
                 player.jumpModifier = jumpBuffMod;
+                jumpBuffVal = jumpBuffMod;
                 buffTimer = jumpBuffTimer;
                 buffCooldown = jumpBuffCooldown;
                 maxBuffCooldown = jumpBuffCooldown;
@@ -262,16 +325,18 @@ public class SimpleClassAbilities : MonoBehaviour
         switch (selectedJump)
         {
             case "RocketJump":
-                rb.velocity = Vector3.up * player.jumpForce * rocketJumpHeight * jumpBuffMod;
+                rb.velocity = Vector3.up * player.jumpForce * rocketJumpHeight * jumpBuffVal;
                 player.speed = player.speed / 4;
                 Invoke("ResetSpeed", 2.2f);
                 break;
             case "ZeroGravJump":
                 rb.useGravity = false;
+                defaultJumpForce = player.jumpForce;
+                player.jumpForce = player.jumpForce / 1.3f;
                 Invoke("ResetGravity", ZeroGravityDuration);
                 break;
             case "Jump":
-                rb.velocity = Vector3.up * player.jumpForce * jumpBuffMod;
+                rb.velocity = Vector3.up * player.jumpForce * jumpBuffVal;
                 break;
             default:
                 //No jump active, do nothing
@@ -284,6 +349,7 @@ public class SimpleClassAbilities : MonoBehaviour
     void ResetGravity()
     {
         rb.useGravity = true;
+        player.jumpForce = defaultJumpForce;
     }
 
     void ResetSpeed()
@@ -301,6 +367,15 @@ public class SimpleClassAbilities : MonoBehaviour
         {
            
             selectedDodge = abilityToSet;
+
+            if (abilityToSet.Contains("Side"))
+            {
+                dodgeNumber = 2;
+            }
+            else if(abilityToSet.Contains("Back"))
+            {
+                dodgeNumber = 1;
+            }
         } else if (abilityToSet.Contains("Buff"))
         {
             selectedBuff = abilityToSet;
@@ -441,5 +516,6 @@ public class SimpleClassAbilities : MonoBehaviour
         return 0f;
     }
 
+    
     #endregion
 }

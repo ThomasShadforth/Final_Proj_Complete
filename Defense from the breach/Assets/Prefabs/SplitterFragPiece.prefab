@@ -112,6 +112,10 @@ MonoBehaviour:
   fragPieceDamage: 10
   fragMoveSpeed: 2
   fragHeight: 3
+  radius: 2
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!54 &8664545000981299048
 Rigidbody:
   m_ObjectHideFlags: 0
