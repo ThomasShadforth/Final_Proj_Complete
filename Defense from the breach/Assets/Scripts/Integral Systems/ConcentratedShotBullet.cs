@@ -16,7 +16,7 @@ public class ConcentratedShotBullet : BulletObject
     {
         //Set ownerPlayer to the player instance
         ownerPlayer = PlayerBase.instance;
-
+        damageEnemy = true;
         //Set rb to it' own rigidbody
         rb = GetComponent<Rigidbody>();
         
@@ -58,6 +58,7 @@ public class ConcentratedShotBullet : BulletObject
     {
         if (other.gameObject.GetComponent<AdvancedEnemyAI>())
         {
+            
             //Set targetEnemy to the object it interacts with
             AdvancedEnemyAI targetEnemy = other.gameObject.GetComponent<AdvancedEnemyAI>();
             //Damage enemy (In the advanced enemy AI script, have the checks to determine whether or not the enemy has armour that can be damaged, or to damage them directly
@@ -67,9 +68,14 @@ public class ConcentratedShotBullet : BulletObject
             ownerPlayer.GetComponent<DynamicClassAbilities>().increaseConcentratedDamage();
             ownerPlayer.GetComponent<DynamicClassAbilities>().increaseMissileBuffStack();
 
+            Destroy(gameObject);
+
         }
 
-        //Destroy the bullet
-        Destroy(gameObject);
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            //Destroy the bullet
+            Destroy(gameObject);
+        }
     }
 }

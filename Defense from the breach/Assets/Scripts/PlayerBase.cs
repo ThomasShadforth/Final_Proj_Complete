@@ -279,6 +279,8 @@ public class PlayerBase : MonoBehaviour
         {
             transform.position = CheckpointSystem.instance.currentCheckpointPos;
             transform.position = new Vector3(transform.position.x - 5, transform.position.y, transform.position.z);
+            rb.velocity = Vector3.zero;
+            knockbackTime = 0;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             health = maxHealth;
         }
@@ -303,6 +305,10 @@ public class PlayerBase : MonoBehaviour
     {
         while(knockTime > 0)
         {
+            if(health <= 0)
+            {
+                break;
+            }
             rb.AddForce(direction, ForceMode.Impulse);
             knockTime -= GamePause.deltaTime;
             yield return null;

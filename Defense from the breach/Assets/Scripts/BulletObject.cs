@@ -8,7 +8,7 @@ public class BulletObject : MonoBehaviour
     float destroyTime;
     public float damage;
     GameObject owner;
-    bool damageEnemy;
+    protected bool damageEnemy;
 
     // Start is called before the first frame update
     void Start()
