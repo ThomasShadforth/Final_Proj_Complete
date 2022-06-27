@@ -37,6 +37,7 @@ public class TutorialSystem : MonoBehaviour
             instance = this;
             
         }
+        DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame

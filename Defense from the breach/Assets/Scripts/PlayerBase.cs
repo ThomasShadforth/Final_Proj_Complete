@@ -70,7 +70,12 @@ public class PlayerBase : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
     }
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -340,15 +345,19 @@ public class PlayerBase : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (SimpleAbilities.enabled)
+        
+        if (selectedClass == classType.Dynamic)
         {
-            SimpleAbilities.BuffUI = PlayerUI.instance.simpleBuffText;
+            
+            PlayerUI.instance.SetClassGameplayUI(true);
+            PlayerUI.instance.UpdateGameplayAbilityUI(true);
         }
-
-        if (DynamicAbilities.enabled)
+        else if(selectedClass == classType.Simple)
         {
-            DynamicAbilities.BuffUI = PlayerUI.instance.dynamicBuffText;
+            PlayerUI.instance.SetClassGameplayUI();
+            PlayerUI.instance.UpdateGameplayAbilityUI();
         }
+        
     }
     
 }

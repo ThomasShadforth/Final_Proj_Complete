@@ -3542,7 +3542,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3184469831969367081, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
       propertyPath: waitTimer
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3184469831969367081, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
       propertyPath: chaseTimer
@@ -3550,7 +3550,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3184469831969367081, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
       propertyPath: attackTimer
-      value: 0.8
+      value: 0.65
       objectReference: {fileID: 0}
     - target: {fileID: 3184469831969367081, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
       propertyPath: enemyHealth
@@ -4670,7 +4670,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3184469831969367081, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
       propertyPath: patrolSpeed
-      value: 8
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3184469831969367081, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
       propertyPath: strafeSpeed
@@ -6037,7 +6037,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3184469831969367081, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
       propertyPath: patrolSpeed
-      value: 8
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3184469831969367081, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
       propertyPath: strafeSpeed
@@ -6643,7 +6643,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3184469831969367081, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
       propertyPath: patrolSpeed
-      value: 8
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3184469831969367081, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
       propertyPath: strafeSpeed
@@ -6651,11 +6651,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3184469831969367081, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
       propertyPath: attackRadius
-      value: 13.8
+      value: 15.3
       objectReference: {fileID: 0}
     - target: {fileID: 3184469831969367081, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
       propertyPath: detectRadius
-      value: 14.3
+      value: 15.44
       objectReference: {fileID: 0}
     - target: {fileID: 3184469831969367081, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
       propertyPath: upgradePointVal
@@ -12419,19 +12419,19 @@ PrefabInstance:
     - target: {fileID: 3184469831969367081, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
       propertyPath: patrolPoints.Array.data[0]
       value: 
-      objectReference: {fileID: 1100869257}
+      objectReference: {fileID: 1297530819}
     - target: {fileID: 3184469831969367081, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
       propertyPath: patrolPoints.Array.data[1]
       value: 
-      objectReference: {fileID: 1762789958}
+      objectReference: {fileID: 1100869257}
     - target: {fileID: 3184469831969367081, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
       propertyPath: patrolPoints.Array.data[2]
       value: 
-      objectReference: {fileID: 2124066540}
+      objectReference: {fileID: 1762789958}
     - target: {fileID: 3184469831969367081, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
       propertyPath: patrolPoints.Array.data[3]
       value: 
-      objectReference: {fileID: 1297530819}
+      objectReference: {fileID: 2124066540}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e483e07d2e386ec48a4fcec520f4d74f, type: 3}
 --- !u!4 &1274273082 stripped
@@ -20381,7 +20381,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4663297581868478124, guid: e449f687ebdd6a040aaa992a4c73d5cd, type: 3}
       propertyPath: speed
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4663297581868478124, guid: e449f687ebdd6a040aaa992a4c73d5cd, type: 3}
       propertyPath: jumpModifier
