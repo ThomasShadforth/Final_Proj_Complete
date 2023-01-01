@@ -408,10 +408,10 @@ MonoBehaviour:
   attackSpeed: 0
   moveSpeed: 4
   patrolSpeed: 3
-  strafeSpeed: 6
+  strafeSpeed: 15
   rangeAttackTimer: 0
   meleeAttackTimer: 0
-  strafeTimer: 2
+  strafeTimer: 1
   canStrafe: 0
   strafeDirectionMultiplier: 0
   patrolPoints: []
@@ -421,11 +421,12 @@ MonoBehaviour:
   hasArmour: 1
   ArmourDurability: 20
   defaultArmDurability: 40
-  waitTimer: 1.5
+  bossScale: 0
+  waitTimer: 1
   patrolWaitTimer: 3
   chaseTimer: 1.5
   waitTime: 0
-  attackTimer: 0.8
+  attackTimer: 0.65
   attackTime: 0
   bullet: {fileID: 2243067292497066973, guid: 4d57db2d0214c48438b471b6cfa9278a, type: 3}
   AOE_Sphere: {fileID: 1384664906798008375}

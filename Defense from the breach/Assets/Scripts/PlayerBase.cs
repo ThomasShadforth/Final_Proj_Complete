@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 public enum classType
 {
     Simple,
@@ -57,7 +58,7 @@ public class PlayerBase : MonoBehaviour
     public float knockbackTimer;
     float knockbackTime;
 
-
+    
     void Awake()
     {
         if(instance != null)
@@ -69,7 +70,12 @@ public class PlayerBase : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
     }
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -112,10 +118,15 @@ public class PlayerBase : MonoBehaviour
             return;
         }
 
-        if (TutorialSystem.instance != null && (TutorialSystem.instance.isTutorialActive && !TutorialSystem.instance.doesTutHaveConditions))
+        if ((TutorialSystem.instance != null && (TutorialSystem.instance.isTutorialActive && !TutorialSystem.instance.doesTutHaveConditions && !TutorialSystem.instance.uiDisappeared)) || (TutorialSystem.instance != null && (TutorialSystem.instance.isTutorialActive && TutorialSystem.instance.doesTutHaveConditions && !TutorialSystem.instance.uiDisappeared)))
         {
             return;
         }
+        /*else if (TutorialSystem.instance != null && (TutorialSystem.instance.isTutorialActive && TutorialSystem.instance.doesTutHaveConditions && !TutorialSystem.instance.uiDisappeared))
+        {
+            
+            return;
+        }*/
 
         if (knockbackTime <= 0)
         {
@@ -198,6 +209,11 @@ public class PlayerBase : MonoBehaviour
         {
             SimpleAbilities.enabled = true;
             DynamicAbilities.enabled = false;
+            if(SimpleAbilities.BuffUI == null)
+            {
+                SimpleAbilities.BuffUI = PlayerUI.instance.simpleBuffText;
+            }
+
             weapon.gameObject.SetActive(false);
             PlayerUI.instance.SetClassGameplayUI();
             PlayerUI.instance.UpdateGameplayAbilityUI();
@@ -207,6 +223,10 @@ public class PlayerBase : MonoBehaviour
         {
             SimpleAbilities.enabled = false;
             DynamicAbilities.enabled = true;
+            if (DynamicAbilities.BuffUI == null)
+            {
+                DynamicAbilities.BuffUI = PlayerUI.instance.dynamicBuffText;
+            }
             weapon.gameObject.SetActive(true);
             PlayerUI.instance.SetClassGameplayUI(true);
             PlayerUI.instance.UpdateGameplayAbilityUI(true);
@@ -264,6 +284,8 @@ public class PlayerBase : MonoBehaviour
         {
             transform.position = CheckpointSystem.instance.currentCheckpointPos;
             transform.position = new Vector3(transform.position.x - 5, transform.position.y, transform.position.z);
+            rb.velocity = Vector3.zero;
+            knockbackTime = 0;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             health = maxHealth;
         }
@@ -273,10 +295,29 @@ public class PlayerBase : MonoBehaviour
     {
         knockbackTime = knockbackTimer;
 
-        direction.y = .5f;
-        direction.z = .3f;
+        direction.y = .2f;
+        direction.z = 2f;
+
+        Debug.Log(direction);
+        //rb.AddForce(direction, ForceMode.Impulse);
+
+        StartCoroutine(knockbackCo(direction, knockbackTime));
+        Debug.Log(rb.velocity);
         
-        rb.velocity = direction * knockbackForce;
+    }
+
+    IEnumerator knockbackCo(Vector3 direction, float knockTime)
+    {
+        while(knockTime > 0)
+        {
+            if(health <= 0)
+            {
+                break;
+            }
+            rb.AddForce(direction, ForceMode.Impulse);
+            knockTime -= GamePause.deltaTime;
+            yield return null;
+        }
     }
 
     public void AddHealth(float healthRecovery)
@@ -288,6 +329,7 @@ public class PlayerBase : MonoBehaviour
             health = maxHealth;
         }
     }
+    
 
     public void AddAmmo(int ammoGain)
     {
@@ -301,4 +343,21 @@ public class PlayerBase : MonoBehaviour
         Gizmos.DrawWireSphere(playerFeetPos.position, detectRadius);
     }
 
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        
+        if (selectedClass == classType.Dynamic)
+        {
+            
+            PlayerUI.instance.SetClassGameplayUI(true);
+            PlayerUI.instance.UpdateGameplayAbilityUI(true);
+        }
+        else if(selectedClass == classType.Simple)
+        {
+            PlayerUI.instance.SetClassGameplayUI();
+            PlayerUI.instance.UpdateGameplayAbilityUI();
+        }
+        
+    }
+    
 }

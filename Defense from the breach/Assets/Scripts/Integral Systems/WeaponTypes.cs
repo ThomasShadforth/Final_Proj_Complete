@@ -68,6 +68,11 @@ public class WeaponTypes : MonoBehaviour
         cam = FindObjectOfType<CamController>();
     }
 
+    private void OnEnable()
+    {
+        reloading = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -76,9 +81,12 @@ public class WeaponTypes : MonoBehaviour
             return;
         }
 
-        if(TutorialSystem.instance != null && (TutorialSystem.instance.isTutorialActive && !TutorialSystem.instance.doesTutHaveConditions))
+        if(TutorialSystem.instance != null && (TutorialSystem.instance.isTutorialActive && !TutorialSystem.instance.doesTutHaveConditions && !TutorialSystem.instance.uiDisappeared))
         {
-            Debug.Log("AAAAAAAAA");
+            
+            return;
+        } else if(TutorialSystem.instance != null && (TutorialSystem.instance.isTutorialActive && TutorialSystem.instance.doesTutHaveConditions && !TutorialSystem.instance.uiDisappeared))
+        {
             return;
         }
 
@@ -271,7 +279,7 @@ public class WeaponTypes : MonoBehaviour
         GameObject shootBullet = Instantiate(bulletPrefab, muzzleEnd.position, muzzleEnd.rotation);
         shootBullet.GetComponent<Rigidbody>().velocity = transform.forward * bulletSpeed;
         shootBullet.GetComponent<BulletObject>().setDamage(20, damageModifier);
-        shootBullet.GetComponent<BulletObject>().SetOwner(this.gameObject);
+        shootBullet.GetComponent<BulletObject>().SetOwner(this.gameObject, true);
         AmmoCount -= 1;
     }
 
@@ -282,7 +290,7 @@ public class WeaponTypes : MonoBehaviour
         float TimePercentage = 0f;
         while(TimePercentage < 1)
         {
-            TimePercentage += Time.deltaTime / recoilTime;
+            TimePercentage += GamePause.deltaTime / recoilTime;
             //cam.transform.localEulerAngles = Vector3.Lerp(recoilStart, recoilProduct, TimePercentage);
             cam.transform.localEulerAngles = new Vector3(Mathf.Lerp(recoilStart.x, recoilProduct.x, TimePercentage),
                 Mathf.Lerp(recoilStart.y, recoilProduct.y, TimePercentage), cam.transform.localEulerAngles.z);

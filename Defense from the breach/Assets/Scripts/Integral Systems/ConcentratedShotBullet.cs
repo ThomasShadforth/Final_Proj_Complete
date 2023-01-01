@@ -16,7 +16,7 @@ public class ConcentratedShotBullet : BulletObject
     {
         //Set ownerPlayer to the player instance
         ownerPlayer = PlayerBase.instance;
-
+        damageEnemy = true;
         //Set rb to it' own rigidbody
         rb = GetComponent<Rigidbody>();
         
@@ -53,11 +53,12 @@ public class ConcentratedShotBullet : BulletObject
         Destroy(gameObject);
     }*/
 
-    //When the triggerArea interacts with an enemy
+    //When the triggerArea interacts with an enemy (More effective in comparison to the original method of having the object collide, prevents force from being applied)
     public override void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<AdvancedEnemyAI>())
         {
+            
             //Set targetEnemy to the object it interacts with
             AdvancedEnemyAI targetEnemy = other.gameObject.GetComponent<AdvancedEnemyAI>();
             //Damage enemy (In the advanced enemy AI script, have the checks to determine whether or not the enemy has armour that can be damaged, or to damage them directly
@@ -67,9 +68,16 @@ public class ConcentratedShotBullet : BulletObject
             ownerPlayer.GetComponent<DynamicClassAbilities>().increaseConcentratedDamage();
             ownerPlayer.GetComponent<DynamicClassAbilities>().increaseMissileBuffStack();
 
+            //Destroy the bullet
+            Destroy(gameObject);
+
         }
 
-        //Destroy the bullet
-        Destroy(gameObject);
+        //Simply destroy the bullet when colliding with the ground
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            //Destroy the bullet
+            Destroy(gameObject);
+        }
     }
 }

@@ -18,6 +18,8 @@ public class SplitterFragBase : MonoBehaviour
     public float fragPieceDamage;
     //Whether or not the object has spawned frag pieces
     bool hasSpawnedFrags;
+    public float damageRadius;
+    public LayerMask enemyLayer;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +49,7 @@ public class SplitterFragBase : MonoBehaviour
     //On collision, if the other object is the ground or an an enemy, trigger this block of code
     private void OnCollisionEnter(Collision other)
     {
+        /*
         if(other.gameObject.layer == LayerMask.NameToLayer("Ground") || other.gameObject.GetComponent<AdvancedEnemyAI>())
         {
             //If it's an enemy, have them take damage
@@ -61,6 +64,21 @@ public class SplitterFragBase : MonoBehaviour
                 StartCoroutine(SpawnFragPieces());
                 hasSpawnedFrags = true;
             }
+        }*/
+
+        Collider[] detectedEnemies = Physics.OverlapSphere(transform.position, damageRadius, enemyLayer);
+        if(detectedEnemies.Length != 0)
+        {
+            foreach(Collider enemy in detectedEnemies)
+            {
+                enemy.gameObject.GetComponent<AdvancedEnemyAI>().TakeDamage(baseDamage, false);
+            }
+        }
+
+        if (!hasSpawnedFrags)
+        {
+            StartCoroutine(SpawnFragPieces());
+            hasSpawnedFrags = true;
         }
     }
 

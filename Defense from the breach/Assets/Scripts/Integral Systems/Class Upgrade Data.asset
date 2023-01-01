@@ -143,8 +143,8 @@ MonoBehaviour:
       - upgradeName: Ordnance - Almighty Wave
         upgradeDescription: A projectile that has an initial detonation, and continues
           to damage enemies inside of it for a few second
-        upgradeUnlocked: 0
-        starterUpgrade: 0
+        upgradeUnlocked: 1
+        starterUpgrade: 1
         upgradeCost: 20
         hasLevels: 0
         upgradeLevel: 0
@@ -152,8 +152,8 @@ MonoBehaviour:
       - upgradeName: Ordnance - Splitter Frag
         upgradeDescription: A projectile that splits into smaller explosives on initial
           impact
-        upgradeUnlocked: 0
-        starterUpgrade: 0
+        upgradeUnlocked: 1
+        starterUpgrade: 1
         upgradeCost: 20
         hasLevels: 0
         upgradeLevel: 0

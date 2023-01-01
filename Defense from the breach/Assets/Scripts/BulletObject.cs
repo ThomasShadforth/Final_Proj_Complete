@@ -8,7 +8,7 @@ public class BulletObject : MonoBehaviour
     float destroyTime;
     public float damage;
     GameObject owner;
-
+    protected bool damageEnemy;
 
     // Start is called before the first frame update
     void Start()
@@ -16,9 +16,10 @@ public class BulletObject : MonoBehaviour
         
     }
 
-    public void SetOwner(GameObject ownerToSet)
+    public void SetOwner(GameObject ownerToSet, bool willHurtEnemy)
     {
         owner = ownerToSet;
+        damageEnemy = willHurtEnemy;
     }
 
     public virtual void setDamage(int bulDamage, float wepDmgMod)
@@ -37,7 +38,7 @@ public class BulletObject : MonoBehaviour
         }
     }
 
-    public virtual void OnCollisionEnter(Collision other)
+    /*public virtual void (Collision other)
     {
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         if (other.gameObject.GetComponent<EnemyAI>())
@@ -64,31 +65,30 @@ public class BulletObject : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
+    }*/
 
     public virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<EnemyAI>())
-        {
-
-            EnemyAI hurtEnemy = other.gameObject.GetComponent<EnemyAI>();
-            hurtEnemy.hurtEnemy(damage);
-            Destroy(gameObject);
-        }
-        else if (other.gameObject.GetComponent<PlayerBase>() && owner != other.gameObject.GetComponent<PlayerBase>().GetComponent<GameObject>())
+        Debug.Log(other.gameObject.name);
+        
+        if (other.gameObject.GetComponent<PlayerBase>() && !damageEnemy)
         {
             PlayerBase.instance.hurtPlayer(damage);
             Destroy(gameObject);
         }
 
-        if (other.gameObject.GetComponent<AdvancedEnemyAI>() && owner != other.gameObject.GetComponent<AdvancedEnemyAI>().GetComponent<GameObject>())
+        if (other.gameObject.GetComponent<AdvancedEnemyAI>())
         {
-            AdvancedEnemyAI hurtEnemy = other.gameObject.GetComponent<AdvancedEnemyAI>();
-            hurtEnemy.TakeDamage(damage, false);
-            Destroy(gameObject);
+            if (damageEnemy)
+            {
+
+                AdvancedEnemyAI hurtEnemy = other.gameObject.GetComponent<AdvancedEnemyAI>();
+                hurtEnemy.TakeDamage(damage, false);
+                Destroy(gameObject);
+            }
         }
 
-        else
+        else if(!other.gameObject.GetComponent<BulletObject>())
         {
             Destroy(gameObject);
         }
