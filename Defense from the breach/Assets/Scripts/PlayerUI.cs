@@ -82,6 +82,7 @@ public class PlayerUI : MonoBehaviour
     {
         //References the different abilities that are selected within the simple class
         SimpleClassAbilities abilityReference = PlayerBase.instance.GetComponent<SimpleClassAbilities>();
+        //This cooldown display is represent by a greyed out image that slowly becomes smaller
         UICooldownLayers[0].fillAmount = abilityReference.buffCooldown / abilityReference.maxBuffCooldown;
         UICooldownLayers[1].fillAmount = abilityReference.superJumpLimit / abilityReference.superJumpLimitVal;
         UICooldownLayers[2].fillAmount = abilityReference.dodgeCooldown / abilityReference.maxDodgeCooldown;
@@ -89,8 +90,7 @@ public class PlayerUI : MonoBehaviour
 
     public void UpdateGameplayAbilityUI(bool dynamicUI = false)
     {
-        //Method called when switching class in the menu or in gameplay (Currently has a bug where it won't switch properly on scene load, meaning the player has to switch twice
-        //To get the proper UI for the dynamic class)
+        //Method called when switching class in the menu or in gameplay
         if (dynamicUI)
         {
             dynamicClassGameplayUI.GetComponent<DynamicGameplayUI>().updateUI();
@@ -105,8 +105,10 @@ public class PlayerUI : MonoBehaviour
     public void UpdateDynamicClassUI()
     {
         DynamicClassAbilities abilityReference = PlayerBase.instance.GetComponent<DynamicClassAbilities>();
+        //Updates the cooldowns for the dynamic class (Once again, greyed out image that becomes smaller)
         UICooldownLayers[3].fillAmount = abilityReference.concentratedShotCooldown / abilityReference.concentratedCooldownVal;
         UICooldownLayers[4].fillAmount = abilityReference.projectileCooldown / abilityReference.maxProjectileCooldown;
+        //Records the amount of ammo currently in the mag, and the amount of remaining ammo that is held
         magAmmoText.text = "" + abilityReference.weapon.AmmoCount + " / " + abilityReference.weapon.MaxAmmoCount;
         remainingAmmoText.text = "" + abilityReference.weapon.AmmoHeld;
     }

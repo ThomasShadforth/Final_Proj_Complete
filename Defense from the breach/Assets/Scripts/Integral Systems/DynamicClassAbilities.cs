@@ -12,8 +12,11 @@ public class DynamicClassAbilities : MonoBehaviour
 
     //The abilities that are currently selected.
     [Header("Selected Abilities")]
+    //Stores the name of the selected projectile
     public string selectedProjectile = "Ordnance - Spinning Orb";
+    //Name of the buff/missile ability selected
     public string buffOrMissile = "Concentrated Spec - Missile Barrage";
+    //Stores the name of the selected stat boost.
     public string selectedStatBoost = "Strengthen - Weapon Damage";
     
     //Cooldowns for each ability (Base), and specific cooldowns for selected abilities
@@ -49,12 +52,13 @@ public class DynamicClassAbilities : MonoBehaviour
     public float projectileModifier;
     //Array that stores the different projectile objects, and a variable that stores the currently selected one
     [SerializeField] GameObject[] selectedProjectileObject;
+    //This object is set based on what is selected within the class menu
     [SerializeField] GameObject projectileObject;
     //How many missiles the player can fire, and the delay between firing each one
     public int missileStacks;
     public float missileDelay;
     
-    //The prefab for the missile
+    //The prefab for the missile that is fired
     [Header("Required Prefabs")]
     public GameObject missileObject;
 
@@ -70,7 +74,7 @@ public class DynamicClassAbilities : MonoBehaviour
     bool wepBuffTimer;
     public bool concentratedShotActive;
 
-    //Reference to the weapon
+    //Reference to the player's weapon
     public WeaponTypes weapon;
 
     //Stores a string of the names of buffs that are currently active (for the UI)
@@ -129,7 +133,6 @@ public class DynamicClassAbilities : MonoBehaviour
             if(projectileBuffTimer > 0)
             {
                 projectileBuffTimer -= 1 * GamePause.deltaTime;
-                
             }
             //Otherwise, set the timer bool to false, the modifier back to the default, 
             else
@@ -297,9 +300,7 @@ public class DynamicClassAbilities : MonoBehaviour
     //Calls the MissileBarrage coroutine
     public void FireMissiles()
     {
-
         StartCoroutine(MissileBarrage(missileStacks));
-        
 
     }
     public IEnumerator MissileBarrage(int missileStack)

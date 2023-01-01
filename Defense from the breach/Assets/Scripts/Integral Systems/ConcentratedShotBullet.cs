@@ -53,7 +53,7 @@ public class ConcentratedShotBullet : BulletObject
         Destroy(gameObject);
     }*/
 
-    //When the triggerArea interacts with an enemy
+    //When the triggerArea interacts with an enemy (More effective in comparison to the original method of having the object collide, prevents force from being applied)
     public override void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<AdvancedEnemyAI>())
@@ -68,10 +68,12 @@ public class ConcentratedShotBullet : BulletObject
             ownerPlayer.GetComponent<DynamicClassAbilities>().increaseConcentratedDamage();
             ownerPlayer.GetComponent<DynamicClassAbilities>().increaseMissileBuffStack();
 
+            //Destroy the bullet
             Destroy(gameObject);
 
         }
 
+        //Simply destroy the bullet when colliding with the ground
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             //Destroy the bullet
